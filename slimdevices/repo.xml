@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+ <details>
+  <title lang="EN">Jason Holtzapple's Squeezecenter Plugins</title>
+ </details>
+
+  <plugins>
+
+	<plugin name="PowerSave" version="7.4.1" minTarget="7.4" maxTarget="*">
+	  <title lang="EN">PowerSave</title>
+	  <desc lang="EN">Power off your squeezebox after a certain amount of time (idle or otherwise)</desc>
+	  <url>http://bitflip.net/slim/plugins/powersave/7.4.1/PowerSave-7.4.1.zip</url>
+          <creator>Jason Holtzapple</creator>
+          <email>jasonholtzapple@gmail.com</email>
+	  <sha>4cf01f941dea1f79914ae1251ae0f9df6230a43c</sha>
+	</plugin>
+
+	<plugin name="DirectPlay" version="7.0a2" minTarget="7.0" maxTarget="*">
+	  <title lang="EN">DirectPlay</title>
+	  <desc lang="EN">Play albums, artists or songs directly by database ID</desc>
+	  <url>http://bitflip.net/slim/plugins/DirectPlay/7.0a2/DirectPlay.zip</url>
+          <creator>Jason Holtzapple</creator>
+          <email>jasonholtzapple@gmail.com</email>
+	  <sha>b3b27559c72d514729914189a99df78ffebd28e3</sha>
+	</plugin>
+
+	<plugin name="QuickAccess" version="7.3" minTarget="7.0" maxTarget="*">
+	  <title lang="EN">QuickAccess</title>
+	  <desc lang="EN">QuickAccess provides similar functionality as Favorites plus the possibility to pass a playlist from player to player. Just press and hold a number button and the assigned playlist starts playing. You may select playlists from each player or your server's web interface. You will also need to place the custom.map file (http://bitflip.net/slim/plugins/quickaccess/7.3/custom.map) in your Squeezecenter/IR directory by hand.</desc>
+	  <url>http://bitflip.net/slim/plugins/quickaccess/7.3/QuickAccess_7_3.zip</url>
+          <creator>Jason Holtzapple</creator>
+          <email>jasonholtzapple@gmail.com</email>
+	  <sha>d2b80a4f9cb717115ee2413dae4a46d18e924a00</sha>
+	</plugin>
+
+  </plugins>
+
+</extensions>

@@ -1,0 +1,11 @@
+* Test on 6.5
+* Extract cover art from MP3's
+	- How should this be done?
+* Test on a stock SQLite DB
+	- Autodetect this and switch settings as needed.
+* Remove the clunky need to use a third party app to read from the barcode reader.
+	- How should this be done?
+* Create a method for tracking pages already created for easy updating and inserting new pages
+ rather than a complete re-print every time.
+	- Hijack a little used table? Get slimdevices to give me a table?
+* Barcodes of stored playlists

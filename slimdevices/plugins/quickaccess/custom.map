@@ -1,0 +1,56 @@
+##################################################################################
+# Button names to function mappings
+##################################################################################
+# The format here is buttonname = function, grouped by [modename]
+
+[common]
+# Button functions that are common to all modes (unless overridden)
+
+now_playing		= dead
+now_playing.single	= playdisp_toggle
+now_playing.hold	= datetime
+
+brightness_down		= dead
+brightness_up		= dead
+brightness		= dead
+
+brightness_down.single	= brightness_down
+brightness_up.single	= brightness_up
+brightness.single	= brightness_toggle
+
+brightness_down.hold	= modefunction_PLUGIN.Temperature->showTemperature
+brightness_up.hold	= modefunction_PLUGIN.Temperature->showTemperature
+brightness.hold		= modefunction_PLUGIN.Temperature->showTemperature
+
+
+0						= dead
+0.single					= numberScroll_0
+0.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_0
+1						= dead
+1.single					= numberScroll_1
+1.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_1
+2						= dead
+2.single					= numberScroll_2
+2.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_2
+3						= dead
+3.single					= numberScroll_3
+3.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_3
+4						= dead
+4.single					= numberScroll_4
+4.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_4
+5						= dead
+5.single					= numberScroll_5
+5.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_5
+6						= dead
+6.single					= numberScroll_6
+6.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_6
+7						= dead
+7.single					= numberScroll_7
+7.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_7
+8						= dead
+8.single					= numberScroll_8
+8.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_8
+9						= dead
+9.single					= numberScroll_9
+9.hold						= modefunction_PLUGIN.QuickAccess->numberScroll_9
+

@@ -1,0 +1,123 @@
+Overview:
+
+I love slimserver, and having all of my music in digital format. This said, I missed the hands-on tactile experience of sifting thru my albums. I decided to combine the best of both worlds, a physical book I could flip thru, scan a barcode and trigger it to play the album or artist of my choice. I have been happy with my book so far, and have been hearing even more the music slimserver has helped me to remember we have.
+
+Rquirements:
+
+- slimserver database in mysql
+	- tested on 6.2.x and 6.3.x
+
+- required third party apps and perl modules listed below
+
+- cover.jpg cover art files extracted to your music folder
+	- will not currently extract the images from slimserver or mp3s directly
+
+- Linux or *NIX based OS.
+	- may work with OSX
+	- would not take too much to make it work under cygwin but some porting would be required
+
+- Barcode reader that can read UPCA barcodes and output to stdout
+	- Ever figuring out that getting a deal on a barcode reader on ebay was a myth I bought an POS-X Xi2000U 
+	- Both the company and the reseller I bought it from both seem to be gone, talk about a fly by night operation.
+		- I am pretty sure it is really a Cipherlab 1100 anyhow
+		- The USB model despite being an HID device, did not work with Linux
+		- I ended up discovering the external USB wedge was in fact just a custom USB to PS/2 adapter
+		- after wiring a PS/2 plug in (guessing the pinout on dumb luck the first time, just thinking what color scheme would _I_ use!) it worked fine. Word to the wise, get a ps/2 scanner. I am using a "PPA" ps/2 to usb adapter which works fine.
+
+	- Also tested with a cuecat, quite likely the cheapest barcode scanner you can find. But you know what? The cuecat sucks. Go figure.
+
+		- Obtaining and modifying a brand new cuecat from a local surplus store was easy enough, however I found it
+to be difficult to use. I did not know when I bought it, but you don't "wave" a cuecat over a barcode, you swipe it as if you were using an old hand picture scanner. At least for me this involves several passes to get it right. You can sort of get a knack for it, but I wanted something simple that houseguests could use.
+- I would also avoid "CCD" scanners or anything that claims you have to make contact with the barcode, go for a Laser or Linear (a new form of CCD) scanner.
+
+- A binder and Divider pages
+
+- A means of printing out a large number of pages (1200 in my case)
+	- I used staples online copycenter - http://www.staplescopycenter.com
+		- Full Disclosure, I don't work for staples, but the company I work for has an interest in people using this service. The company I work for in no way enorses this project, it was simply just the easiest way I could find to turn a PDF into a massive stack of hole punched paper. I did mine duplexed on recycled paper, this will mean things may be slightly out of order in the future as I insert new pages.
+
+Perl Modules:
+File::Spec::Functions
+DBI
+PDF::Reuse
+PDF::Reuse::Barcode
+Image::Info
+Image::Magick
+File::Copy
+IO::Socket
+
+Required Apps:
+
+Server:
+	Perl
+	Xpdf
+	 - Or any other PDF reader that won't muck with the scaling, I can't seem to get the preview app under OSX ever not mess with my document before printing.
+	MySQL
+	ImageMagic
+	PerlMagic
+
+Client (if different from server system):
+	keytest from esekeyd-1.2.1 (or another app which will read from your barcode scanner and write out the barcode to stdout)
+		http://www.burghardt.pl/wiki/software/esekeyd
+	evdev Linux event driver kernel module
+	optionally the USB HID driver if you are using a usb barcode scanner or a ps/2 one via a usb adapter
+
+
+Installation:
+* There are two scripts, the first is DirectPlayBookPDF.pl which is used to create a PDF catalog of your music.
+* chmod 775 DirectPlayBookPDF.pl and confirm your path to perl
+* Place note.jpg or another file in /usr/share/note.jpg, or edit $defaultart to suit your location.
+	- This is the jpeg to be used for cover art, in the absense of a cover.jpg in your music folder.
+
+* Install Required apps
+	- ImageMagic's 'convert' needs to be in your path or have $convert modified to specify the path.
+* Install required perl modules
+* Export all of your cover art to cover.jpg in each of your album's folders.
+* Confirm your slimserver database is in the myssql db specified in $db, defaults to slimserver.
+* Modify hostname, password, and database name in the DirectPlayBookPDF script per comments in the script.
+* Edit the $slim_home variable to point to your slimserver's installation directory *VERY IMPORTANT*
+* Set $covertitle, $duplex, $cardstock, $tmp to taste, defaults to printing the cover page on its own, and then duplexing the remaining pages.
+* If all goes well you should be able to run DirectPlayBookPDF.pl
+	- If it works you should have:
+		- a cover page with a listing of your squeezeboxen devices and software and some commands for changing how 		   it builds playlists.
+		- one page per album with album art, an album barcode, an artist barcode, album title, and track listing
+		- an index of artists and albums at the end
+	- If not, something must be wrong, email me for help if you can't figure it out.
+* Proofread the book, and print out a test page.
+	- Be sure to print out a test page on an album with a large number of tracks to make sure they don't run into the drill holes if you are three hole punching.
+* Print, print, print!
+* Provide any feedback on these directions or the script
+
+
+* Assuming you now have a nice printed book of your music.
+* The next step is to configure the second script, slimbar.pl
+	- This is the interface between the barcode scanner and slimserver, it does not have to run on your slimserver, though it could.
+	- It was designed to run on my standalone touchscreen softsqueeze boxes:
+		http://forums.slimdevices.com/showthread.php?t=16775
+* Plugin and configure your barcode scanner
+	- Scripts currently assume some sort of keyboard wedge scanner, they could be modified to work with a serial scanner.
+	- Open an editor such as vi
+	- Scan a barcode from the cover page
+	- Confirm the scanned barcode including the final checksum digit are echo'd into the editor.
+	- Figure out which /dev/input/event* device your barcode scanner is outputting to.
+		- eg. /dev/input/event3 in my case
+		- if you are unsure I just did a 'cat /dev/input/eventX' on each of my entries where X is 0,1,2,3...
+			- While running the cat, scan something, if you are on the right one you should get binary hash on your screen. Be sure not to type anything of move the mouse while doing this as you may get a false positive.
+* Obtain and install keytest from the esekeyd project.
+	- Test keytest
+		- eg. /usr/local/bin/keytest /dev/input/event3
+		- scan a barcode
+		- you should now see the barcode echo twice if you are on the console of the box connected to the barcode scanner.
+			- Once from the scanner directly to the keyboard buffer, the second from keytest reading from the event driver and outputting to stdout.
+	- I never liked this whole mess with the event driver, better ideas for reading from the keyboard buffer are welcome. Note that the script needs to be fired off from an init script at boot, not interactive to the user.
+
+* chmod 775 slimbar.pl and confirm your path to perl
+* Modify $barcodedev and $barcodedecoder in slimbar.pl to point to your barcode event device and the location of keytest, defaults to /usr/local/bin/keytest
+
+* If the box you are running the barcode scanner is not the one you are using play music (eg. softqueeze/squeezeslave/slimp3slave, etc), you will have to modify the $mac variable as detailed in the script's comments. This will define the mac id of the defauilt squeezebox. This can be overriden by scanning the control barcodes on the book's cover page.
+	- The MAC for a given device can be found at the bottom of the "Player Settings" web page.
+* If all is well, you should now be able to start slimbar.pl and start scanning!
+	- Pick and album, scan the barcode, and the squeezebox with the mac your have defined as the default should start playing that song. The play all by this artist barcode should play everything by that artist in a shuffle.
+* The barcodes on the cover page can be used to control how the albums/artists are inserted/deleted from the playlist, save the playlist as Date-Time-Name.
+
+* Have fun listening!
